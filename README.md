@@ -1,0 +1,10 @@
+- There are 2 maven projects in the repository (both are not compiling, but that is irrelevant.)
+- run (both commands will give errors, but those can be ignored):
+  - `./mvnw -f openapi/pom.xml clean verify` 
+  - `./mvnw -f openapi_old/pom.xml clean verify` 
+- check the generated files in the target folder of the openapi project
+  - `openapi/target/generated-sources/openapi/java/org/example/user/api/model`
+  - `openapi_old/target/generated-sources/openapi/java/org/example/user/api/model`
+- compare the generated files in the 2 folders
+  - `openapi_old` will contain `UserDto.java` with the correct name.
+  - `openapi` will contain `AddRequest.java` with the same content, but obviously with the wrong name.
