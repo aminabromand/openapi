@@ -1,0 +1,19 @@
+openapi: "3.0.3"
+info:
+  description: "This is the user api"
+  version: "1.0.0"
+  title: "backend-user"
+servers:
+  - url: "https://localhost:{port}/{basePath}"
+    description: "api server"
+    variables:
+      port:
+        enum:
+          - '8080'
+          - '8443'
+        default: '8080'
+      basePath:
+        default: 'v1'
+paths:
+  /user:
+    $ref: "user-paths.yaml#/paths/%2Fuser"

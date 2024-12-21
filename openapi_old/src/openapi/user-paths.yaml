@@ -1,0 +1,22 @@
+paths:
+  /user:
+    post:
+      summary: "add user"
+      operationId: "add"
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/UserDto"
+      responses:
+        '201':
+          description: "user added"
+        '400':
+          description: "invalid input"
+components:
+  schemas:
+    UserDto:
+      type: "object"
+      properties:
+        id:
+          type: "string"

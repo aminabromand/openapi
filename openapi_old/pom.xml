@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.example</groupId>
+  <artifactId>openapi_old</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <openapi.yaml.file>${project.basedir}/src/openapi/openapi.yaml</openapi.yaml.file>
+    <openapi.generated.sourcepath>java</openapi.generated.sourcepath>
+  </properties>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>7.10.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <generatorName>spring</generatorName>
+              <skipValidateSpec>false</skipValidateSpec>
+              <inputSpec>${openapi.yaml.file}</inputSpec>
+              <configOptions>
+                <sourceFolder>${openapi.generated.sourcepath}</sourceFolder>
+                <interfaceOnly>true</interfaceOnly>
+                <dateLibrary>java17</dateLibrary>
+                <useSpringBoot3>true</useSpringBoot3>
+                <openApiNullable>false</openApiNullable>
+                <!-- These need to be switched on for email validation to be handled in openapi .yaml-->
+                <performBeanValidation>true</performBeanValidation>
+                <useBeanValidation>true</useBeanValidation>
+                <!-- Used for enabling Serializable for generated objects-->
+                <serializableModel>true</serializableModel>
+              </configOptions>
+              <typeMappings>
+                <typeMapping>OffsetDateTime=Instant</typeMapping>
+              </typeMappings>
+              <importMappings>
+                <importMapping>java.time.OffsetDateTime=java.time.Instant</importMapping>
+              </importMappings>
+              <modelPackage>${project.groupId}.user.api.model</modelPackage>
+              <apiPackage>${project.groupId}.user.api.api</apiPackage>
+              <invokerPackage>${project.groupId}.user.api.invoker</invokerPackage>
+              <ignoreFileOverride>${project.basedir}\src\openapi\.openapi-codegen-ignore</ignoreFileOverride>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>test</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${basedir}/target/generated-sources/openapi/java</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+
+  </build>
+
+</project>
